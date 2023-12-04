@@ -30,7 +30,28 @@ sub task1 {
 }
 
 sub task2 {
+  my @number_matches = _get_all_matches_including_indices(qr/(\d+)/);
+  my @asterisk_matches = _get_all_matches_including_indices(qr/(\*)/);
+  my $sum = 0;
+  foreach my $asterisk_match (@asterisk_matches) {
+    my ($x, $y) = _get_grid_coordinates_to_string_position($asterisk_match->[1]);
+    my @adjacent_numbers = map {$_->[0] + 0 } 
+      grep _adjacent_to_asterisk($x, $y, $_), @number_matches;
+    if (@adjacent_numbers == 2) {
+      $sum += $adjacent_numbers[0] * $adjacent_numbers[1];
+    }
+  }
+  print "The sum of all gear ratios is $sum!\n";
+}
 
+sub _adjacent_to_asterisk {
+  my ($x, $y, $number_match) = @_;
+  my ($xn0, $yn0) = _get_grid_coordinates_to_string_position($number_match->[1]);
+  my ($xn1, $yn1) = _get_grid_coordinates_to_string_position($number_match->[2]);
+  if (($xn1 < $x - 1 || $xn0 > $x + 1) || ($yn1 > $y + 1 || $yn1 < $y - 1)) {
+    return 0;
+  }
+  return 1;
 }
 
 sub _get_all_matches_including_indices {
@@ -49,7 +70,14 @@ sub _does_match_border_symbol {
   my ($x0, $y0) = _get_grid_coordinates_to_string_position($match->[1]);
   my ($x1, $y1) = _get_grid_coordinates_to_string_position($match->[2]);
 
-  die if $y0 != $y1; # sanity check for matches spanning multiple grid lines
+  my @grid_slice = _get_border_box_grid_slice($x0, $y0, $x1, $y1);
+
+  my $flat_slice = join "", map { @{$_} } @grid_slice;
+  return $flat_slice =~ /[^0-9.]/;
+}
+
+sub _get_border_box_grid_slice {
+  my ($x0, $y0, $x1, $y1) = @_;
 
   # Calculate the outermost border of the sub-array of all neighbours
   my $left = $x0 == 0 ? 0 : $x0 - 1;
@@ -58,10 +86,7 @@ sub _does_match_border_symbol {
   my $bottom = $y0 == $grid_height - 1 ? $y0 : $y0 + 1;
 
   # Slice the 2d-array using the calculated boundaries
-  my @grid_slice = map { [ @{$_}[$left .. $right] ] } @data_grid[$top .. $bottom];
-
-  my $flat_slice = join "", map { @{$_} } @grid_slice;
-  return $flat_slice =~ /[^0-9.]/;
+  return map { [ @{$_}[$left .. $right] ] } @data_grid[$top .. $bottom];
 }
 
 =pod
