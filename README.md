@@ -17,8 +17,9 @@ folders for the day:
 All solutions work without a newer Perl version (and the version pragmas enabled), but have been
 developed on Perl v5.30.3 on OSX. The code for the respective days can be run as such:
 
-```
-$ perl ./day_XX/<script_name>.pl
+```shell
+$ cd day_XX/
+$ perl ./<script_name>.pl
 ```
 
 By convention the script will output either one or two sentences respectively, with the answer to
