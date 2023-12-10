@@ -3,7 +3,6 @@
 use strict;
 use warnings;
 use List::Util qw(any all first);
-use Data::Dumper;
 
 open my $fh, '<', 'input.txt' or die;
 local $/ = undef;
