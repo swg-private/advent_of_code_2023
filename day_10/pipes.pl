@@ -2,7 +2,7 @@
 
 use strict;
 use warnings;
-use List::Util qw(any all);
+use List::Util qw(any all first);
 use Data::Dumper;
 
 open my $fh, '<', 'input.txt' or die;
@@ -39,7 +39,16 @@ to dead-ends in addition to the main loop.
 sub task1 {
   my ($xs, $ys) = _get_start_coordinates();
   my $type_s = _get_start_tile_type($xs, $ys);
-  print "$type_s\n";
+  my $vector = $connections{$type_s}->[0];
+  my $length = 0;
+  my ($x, $y) = ($xs, $ys);
+  do {
+    ($x, $y) = ($x + $vector->[0], $y + $vector->[1]);
+    $vector = first { !_is_reversed_vector($vector, $_) } @{$connections{$grid->[$y]->[$x]}};
+    $length++;
+  } until ($x == $xs && $y == $ys);
+  my $distance = $length / 2;
+  print "The the maximum distance on the loop is $distance!\n";
 }
 
 sub _get_start_coordinates {
