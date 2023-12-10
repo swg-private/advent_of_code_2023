@@ -12,3 +12,21 @@ folders for the day:
 - Day 6: Tasks 1 and 2
 - Day 7: Task 1
 - Day 8: Task 1
+
+All solutions work without a newer Perl version (and the version pragmas enabled), but have been
+developed on Perl v5.30.3 on OSX. The code for the respective days can be run as such:
+
+```
+$ perl ./day_XX/<script_name>.pl
+```
+
+By convention the script will output either one or two sentences respectively, with the answer to
+the solved tasks in sequence. The code is neither designed to be maintainable, nor to be extendable.
+The main focus is to get all code squeezed into one file, core modules (i.e. non-CPAN) modules are
+used where appropriate.
+
+## Links
+
+- Tasks including descriptions and examples: [Advent of Code 2023](https://adventofcode.com/2023)
+- Documentation for Perl: [Perldoc](https://perldoc.perl.org/5.30.3/)
+- Perl for Windows: [Strawberry Perl](https://strawberryperl.com/)
