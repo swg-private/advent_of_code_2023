@@ -12,6 +12,7 @@ folders for the day:
 - Day 6: Tasks 1 and 2
 - Day 7: Task 1
 - Day 8: Task 1
+- Day 9: Task 1
 
 All solutions work without a newer Perl version (and the version pragmas enabled), but have been
 developed on Perl v5.30.3 on OSX. The code for the respective days can be run as such:
